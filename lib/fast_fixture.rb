@@ -1,1 +1,1 @@
-require 'fast_fixture/cloner'
+require File.dirname(__FILE__) + '/fast_fixture/cloner'

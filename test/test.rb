@@ -2,11 +2,21 @@ require File.dirname(__FILE__) + '/setup.rb'
 
 class FastFixtureTest < Test::Unit::TestCase
   def setup
-    load 'schema/schema.rb'
+    ActiveRecord::Base.configurations = YAML.load(File.read(RAILS_ROOT + "/config/database.yml"))
+    ActiveRecord::Base.establish_connection(:development)
+    load File.dirname(__FILE__) + '/schema/schema.rb'
   end
 
-  def test_cloned_table_is_correct
+  def test_original_table_uses_myisam
+    ActiveRecord::Base.establish_connection(:development)
+    t = ActiveRecord::Base.connection.select_all("SHOW CREATE TABLE courses")[0]
+    assert t["Create Table"] =~ /ENGINE=MyISAM/
+  end
+
+  def test_cloned_table_uses_innodb
     FastFixture::Cloner.new.clone
-    assert true
+    ActiveRecord::Base.establish_connection(:test)
+    t = ActiveRecord::Base.connection.select_all("SHOW CREATE TABLE courses")[0]
+    assert t["Create Table"] =~ /ENGINE=InnoDB/
   end
 end

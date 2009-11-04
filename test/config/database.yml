@@ -3,11 +3,11 @@ development:
   host: localhost
   username: rails
   password: 
-  database: activerecord_unittest
+  database: fast_fixture_test
 
 test:
   adapter: mysql
   host: localhost
   username: rails
   password: 
-  database: activerecord_unittest_test
+  database: fast_fixture_test_test

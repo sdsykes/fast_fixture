@@ -8,11 +8,10 @@ But now you can use FastFixture to clone your development database to your test 
 
 FastFixture clones your database whilst changing the table type from MyISAM to InnoDB, so all your test tables end up being InnoDB.  This simple change allows you to use transactional fixtures, making your tests way faster.
 
-
 h2. Installation
 
 <pre>
-  script plugin install git://github.com/sdsykes/fast_fixture.git
+  ./script/plugin install git://github.com/sdsykes/fast_fixture.git
 </pre>
 
 h2. Usage
@@ -23,11 +22,15 @@ To clone development to test:
   rake db:fast_fixture_clone
 </pre>
 
-To clone auxiliary_development to auxiliary_test (if you are using multiple dbs):
+Once your DB is cloned, you can change to using transactional fixtures, which is a setting in test/test_helper.rb
 
 <pre>
-  rake db:fast_fixture_clone[auxiliary]
+  self.use_transactional_fixtures = true
 </pre>
+
+h2. Performance
+
+We found our tests went from taking eight and a half minutes to almost exactly three minutes. That's a *65% reduction* in running time.
 
 h2. Caveats
 
@@ -35,8 +38,18 @@ InnoDB doesn't support full text indexes, so if you use those this won't work.
 
 h2. Tests
 
-To run the tests you need to first make a database called fast_fixture_test, and have a user rails/no password that can create databases.
-Then run test/test.rb - it will load a schema to fast_fixture_test, and will clone the database to fast_fixture_test_test.  This will be tested for correctness.
+To run the tests you need to first make two databases called fast_fixture_test and fast_fixture_test_test, and have a user rails/no password that can access these and also can delete and create databases.
+Then run test/test.rb - it will load a schema to fast_fixture_test, and will clone the database to fast_fixture_test_test.  This will be checked for correctness.
+
+h2. Extra options
+
+To clone auxiliary_development to auxiliary_test (if you are using multiple dbs):
+
+<pre>
+  rake db:fast_fixture_clone[auxiliary]
+</pre>
+
+Beware, the Rails transactional fixture code needs to be modded to send BEGIN and ROLLBACK statements to all DBs in use, instead of just one.  Contact me if you need this.
 
 h2. Author
 
