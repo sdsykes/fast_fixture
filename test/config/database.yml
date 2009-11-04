@@ -1,0 +1,13 @@
+development:
+  adapter: mysql
+  host: localhost
+  username: rails
+  password: 
+  database: activerecord_unittest
+
+test:
+  adapter: mysql
+  host: localhost
+  username: rails
+  password: 
+  database: activerecord_unittest_test
