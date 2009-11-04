@@ -6,7 +6,7 @@ There are sometimes good reasons to use Mysql MyISAM tables in your application 
 
 But now you can use FastFixture to clone your development database to your test database instead of Rails's built in clone rake task.
 
-FastFixture clones your database whilst changing the table type from MyISAM to InnoDB, so all your test tables end up being InnoDB.  This simple change allows you to use transactional fixtures, making your tests way faster.
+FastFixture clones your database whilst changing the table type from MyISAM to InnoDB, so all your test tables end up being InnoDB.  This simple change allows you to use transactional fixtures, making your tests *way faster*.
 
 h2. Installation
 
